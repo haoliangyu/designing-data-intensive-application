@@ -33,3 +33,17 @@ The ability to make a system simpler to maintain.
 * Operability: make life easier for operators
 * Simplicity: manage complexity
 * Enolvability: make change easy
+
+## Example
+
+### Twitter (p11)
+
+Two different system designs for different users:
+* those mostly being subscribed
+* those mostly subscribing
+
+A good example on how to balance write/load message to broadcast
+
+###  Amazon (p15)
+
+Special focus on tail latencies as users with slower response usually have more data in the application, which means they are high value customer.
