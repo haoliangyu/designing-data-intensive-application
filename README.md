@@ -5,3 +5,5 @@ Personal booknotes of [Designing Data-Intensive Application](https://www.amazon.
 ## Chapters
 
 1. [Reliable, Scalable, and Maintainable Applications](./chapter-1.md)
+
+2. [Data Models and Query Language](./chapter-2.md)
