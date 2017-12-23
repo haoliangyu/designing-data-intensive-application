@@ -8,4 +8,6 @@ Personal booknotes of [Designing Data-Intensive Application](https://www.amazon.
 
 2. [Data Models and Query Language](./chapter-2.md)
 
-3. [Storage and Retrieval ](./chapter-3.md)
+3. [Storage and Retrieval](./chapter-3.md)
+
+4. [Encoding and Evolution](./chapter-4.md)
