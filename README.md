@@ -13,3 +13,5 @@ Personal booknotes of [Designing Data-Intensive Application](https://www.amazon.
 4. [Encoding and Evolution](./chapter-4.md)
 
 5. [Replication](./chapter-5.md)
+
+6. [Partitioning](./chapter-6.md)
