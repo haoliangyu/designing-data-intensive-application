@@ -15,3 +15,5 @@ Personal booknotes of [Designing Data-Intensive Application](https://www.amazon.
 5. [Replication](./chapter-5.md)
 
 6. [Partitioning](./chapter-6.md)
+
+7. [Transactions](./chapter-7.md)
