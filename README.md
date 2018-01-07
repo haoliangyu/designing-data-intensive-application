@@ -17,3 +17,5 @@ Personal booknotes of [Designing Data-Intensive Application](https://www.amazon.
 6. [Partitioning](./chapter-6.md)
 
 7. [Transactions](./chapter-7.md)
+
+8. [The Trouble with Distributed System](./chapter-8.md)
