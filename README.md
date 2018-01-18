@@ -19,3 +19,5 @@ Personal booknotes of [Designing Data-Intensive Application](https://www.amazon.
 7. [Transactions](./chapter-7.md)
 
 8. [The Trouble with Distributed System](./chapter-8.md)
+
+9. [Consistency and Consensus](./chapter-9.md)
