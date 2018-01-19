@@ -43,3 +43,24 @@ Note that a linearizable system is a total order system since it acts like one m
 Figuring out the causality dependency of historical events is difficult. A reasonable way is to determine the order using _sequence numbers_ or _timestamps_. Instead of a time-of-day clock, the _timestamps_ comes from a logical clock that generates a sequence of numbers to identify operations. In particular this sequence of numbers could be generated in a total order to make assigned events in order.
 
 ### Lamport Timestamps
+
+The _Lamport Timestamps_ is a unique identifier that use both the node ID and a counter number. It uses two rules to guarantee the total order:
+
+* The timestamp with a greater counter number is the greater timestamp
+* If the counter numbers are the same, the one with the greater node ID is the greater timestamp
+
+Every node and every client keeps track of the maximum counter number it has so far, and includes the maximum on every request. When a node receives a request or response with a maximum number larger than its own, it immediately increases it own to that maximum. So that a node will know which value is the latest one and moves towards it.
+
+**Is it enough?**
+
+Although the total order would provide the time ordering of each event, the order number is given by each node individually and a node doesn't know whether another node receive a conflicting operation concurrently. It has to know the status of other nodes in order to resolve the conflict and the total order solely cannot help.
+
+### Total Order Broadcast
+
+To resolve this problem, an external service could be used to produce messages in total order and broadcast them to the nodes. Particularly, it should have two safety properties:
+
+* Reliable delivery
+  No messages are lost: if a message is delivered to one node, it is delivered to all nodes.
+
+* Totally ordered delivery
+  Messages are delivered to every node in the same order.
