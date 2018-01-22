@@ -51,7 +51,7 @@ The _Lamport Timestamps_ is a unique identifier that use both the node ID and a 
 
 Every node and every client keeps track of the maximum counter number it has so far, and includes the maximum on every request. When a node receives a request or response with a maximum number larger than its own, it immediately increases it own to that maximum. So that a node will know which value is the latest one and moves towards it.
 
-**Is it enough?**
+**It is not enough!**
 
 Although the total order would provide the time ordering of each event, the order number is given by each node individually and a node doesn't know whether another node receive a conflicting operation concurrently. It has to know the status of other nodes in order to resolve the conflict and the total order solely cannot help.
 
@@ -64,3 +64,27 @@ To resolve this problem, an external service could be used to produce messages i
 
 * Totally ordered delivery
   Messages are delivered to every node in the same order.
+
+## Distributed Transactions and Consensus
+
+### Atomic Commit and Two-Phase Commit (2PC)
+
+Two-phase commit (2PC) is a method to achieve atomic commit/operation in a distributed network. It is a practical, but not perfect way.
+
+#### Distributed Atomic Commit
+
+In a single node, a commit fails if any operation within the commit fails. But in a distributed network, operations are conducted in multiple nodes, where some operations will success or fail. With the definition of atomic commit, if an operation fails in a node, the commit should be aborted. A system must know the results from all nodes in order to approve or abort a commit.
+
+#### Solution
+
+2PC uses a new system component called coordinator to determine the consensus of nodes. The method has two separate phases to commit:
+
+1. after all nodes success to write/read, the coordinator will send a message to all nodes to ask if they are ready to commit
+2. only after all nodes are ready, the coordinator will send a commit request to all nodes
+3. with the request message, nodes are dedicated to commit the change and will keep retrying if fails
+
+#### Problems
+
+* coordinator as a possible single-point-failure
+
+### Fault-Tolerant Consensus
