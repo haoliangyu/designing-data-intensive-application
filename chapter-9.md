@@ -88,3 +88,44 @@ In a single node, a commit fails if any operation within the commit fails. But i
 * coordinator as a possible single-point-failure
 
 ### Fault-Tolerant Consensus
+
+The consensus problem is normally formalized as follows:
+
+> one or more nodes may propose values, and the consensus algorithm decides on one of those values.
+
+A consensus algorithm must satisfy the following properties:
+
+* Uniform agreement
+  No two nodes decide differently.
+
+* Integrity
+  If a node decides value v, then v was proposed by some node.
+
+* Termination
+  Every node that does not crash eventually decides some value.
+
+#### Algorithms
+
+The first and second property defines the core idea of the algorithm, while the last one is to ensure that the decided value make senses.
+
+Best known algorithms include: Viewstamped Replication, Paxo, Raft, and Zab. Instead of proving one consensus, they decide on a sequence of values, which makes them total order broadcast algorithms:
+
+* Due to the agreement of consensus, all nodes decide to deliver the same message in the same order.
+
+* Due to the integrity property, messages are not duplicated.
+
+* Due to the validity property, messages are not corrupted and not fabricated out of thin air.
+
+* Due to the termination property, messages are not lost.
+
+#### Limitations
+
+* Acquiring consensus of nodes is a form of synchronous operations and it limits the performance of system.
+
+* Consensus systems always require a strict majority to operate.
+
+* Most consensus algorithms assume a fixed set of nodes that participate in voting.
+
+* Consensus systems generally rely on timeouts to detect failed nodes.
+
+* Sometimes consensus algorithms are particularly sensitive to network problems.
