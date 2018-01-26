@@ -37,3 +37,21 @@ Since the mapper and reducer is stateless functions, they can be run independent
 #### MapReduce Workflows
 
 Since both the input and output of a MapReduce job is stored in the distribute file system, the output of one MapReduce job can be the input of another MapReduce job. This forms a chain of MapReduce jobs, called MapReduce workflow, and can be built for very complex systems.
+
+### MapReduce vs Distributed Database
+
+MapReduce has some similarities with the _massively parallel processing_ (MPP) databases, where data is stored and queries are run in a cluster of nodes.
+
+But they have some significant distinctions:
+
+* Diversity of Storage
+
+  A database stores data with a consistent schema across nodes but a MapReduce's distributed file system can allow different data formats and heterogeneous data systems. Like define-schema-first vs detect-schema-later.
+
+* Diversity of Processing Models
+
+  A database executes SQL query language which a MapReduce system can have flexibility in defining the processing within the mapper and reducer function.
+
+* Design for Frequent Faults
+
+  If an error occurs during the execution of a query, the MPP database will abort the whole execution due to the atomicity. But in a MapReduce system, the error handling happens in a granular level. Because the input and output of the mapper/reducer function are both written in the distributed file system, it is possible to rerun the same function with the exact same input and get the result. Inside the MapReduce system, error is handled at the individual function level and it can simple retry for the failed functions. This ensure a MapReduce workflows can produce output as if there is no internal errors.
