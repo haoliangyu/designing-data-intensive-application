@@ -23,3 +23,5 @@ Personal booknotes of [Designing Data-Intensive Application](https://www.amazon.
 9. [Consistency and Consensus](./chapter-9.md)
 
 10. [Batch Processing](./chapter-10.md)
+
+11. [Stream Processing](./chapter-11.md)
