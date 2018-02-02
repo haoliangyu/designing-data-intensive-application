@@ -37,3 +37,43 @@ Within each partition, the broker assigns a monotonically increasing sequence nu
 When a consumer subscribes to a queue, it uses a pointer with an offset to read the log sequentially. It starts from an offset and read until it meets an unread message and then update the offset to the message number.
 
 If the message is sent in a fan-out mode, each consumer can independently read the log to read all records. But if in the load balancing mode, a message needed to be delivered once and one solution is to assign a consumer to one single partition, which means one consumer only subscribes to one log.
+
+### Change Data Detection
+
+_Change Data Detection_ is a process of observing all data changes written to a database and extracting them in a form in which they can be replicated to other systems.
+
+This is can be resolved by the _dual write_ process. The application explicitly writes to each part of the system when data changes. However, this method is not robust to failure and suffers from performance issue.
+
+Since a database internally stores data in a replication log, this can be treated as the partitioned log for stream processing, which allows external systems to subscribe.
+
+Since the stream subscription is asynchronous, it is able to decouple the producer and consumer.
+
+### Event Sourcing
+
+Beside emitting data results in the stream, a producer can emit events that represent the action taken to produce the data results.
+
+This keeps the history of actions, instead of data.
+
+### Fault Tolerance
+
+Similar to the batch process, the goal of fault tolerance is to enable retry after the failure and return the current result. It ensures the process output only one result even after multiple retries (exactly-once schema).
+
+However, since a stream is an unbounded data, tolerating error in the stream processing cannot be as simple as waiting until the stream finishes before restarts. A stream is unstoppable and infinite.
+
+#### Microbatching and Checkpointing
+
+One approach is to break the stream in to small blocks and treat each block like a minimal batch processing.
+
+There is a trade-off in choosing the right batch size. If the size is too small, it increases the overhead to create and schedule blocks. But if the chosen block is too large, the stream could have a significant lag because of the processing time.
+
+A variant approach is to periodically generate rolling-back checkpoints of state and write them to durable storage. If a stream operator crashes, it can restart from its most recent checkpoint and discard any output generated between the last checkpoint and the crash. _Does this only work for aggregation operator?_ (in Apache Flink)
+
+#### Atomic Commit
+
+Within a restricted environment, atomic commit for stream processing could be implemented efficiently. Similar features is implemented in Google Cloud Dataflow and VoltDB.
+
+#### Idempotence
+
+An idempotent operation is one that you can performance multiple times, and it has the same effect as if you performed it once. This function should be deterministic: given a specific input, the output should be always the same.
+
+Even if an operation is not naturally idempotent, it can often be made idempotent with extra metadata. For example, by given a monotonically increasing offset to each action, the application can tell whether has been updated by the same action with the last-updated offset. It can help avoid performing the action twice.
